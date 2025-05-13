@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-// ProbeServiceTest.java
 package com.seaexplorer;
 
 import com.seaexplorer.model.Direction;
