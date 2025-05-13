@@ -5,14 +5,18 @@ import com.seaexplorer.model.Direction;
 import com.seaexplorer.model.Grid;
 import com.seaexplorer.model.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProbeService {
     private Position position;
     private Grid grid;
+    private List<Position> history = new ArrayList<>();
 
     public void initialize(int x, int y, Direction direction) {
         this.position = new Position(x, y, direction);
+        history.clear();
+        history.add(new Position(x, y, direction));
     }
 
     public ProbeService(int maxX, int maxY) {
@@ -53,7 +57,15 @@ public class ProbeService {
         return position;
     }
 
-    public List<Position> getVisitedPositions() {
-        return null;
+
+
+
+    private void track() {
+        history.add(new Position(position.getX(), position.getY(), position.getDirection()));
     }
+
+    public List<Position> getVisitedPositions() {
+        return history;
+    }
+
 }
