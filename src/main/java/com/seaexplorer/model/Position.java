@@ -28,6 +28,16 @@ public class Position {
         this.direction = this.direction.turnRight();
     }
 
+    public void moveBackward() {
+        switch (direction) {
+            case NORTH -> y--;
+            case SOUTH -> y++;
+            case EAST -> x--;
+            case WEST -> x++;
+        }
+    }
+
+
     public int getX() { return x; }
     public int getY() { return y; }
     public Direction getDirection() { return direction; }

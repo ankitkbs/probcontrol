@@ -22,6 +22,7 @@ public class ProbeService {
         for (char cmd : commands.toCharArray()) {
             switch (cmd) {
                 case 'F' -> position.moveForward();
+                case 'B' -> position.moveBackward();
                 case 'L' -> position.turnLeft();
                 case 'R' -> position.turnRight();
             }
