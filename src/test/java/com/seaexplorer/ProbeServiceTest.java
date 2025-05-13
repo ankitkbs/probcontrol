@@ -30,6 +30,17 @@ class ProbeServiceTest {
         assertEquals(Direction.NORTH, probeService.getCurrentPosition().getDirection());
     }
 
+    @Test
+    void shouldMoveBackwardFromInitialPosition() {
+        ProbeService probeService = new ProbeService(5, 5);
+        probeService.initialize(1, 2, Direction.NORTH);
+        probeService.executeCommands("B");
+        Position pos = probeService.getCurrentPosition();
+        assertEquals(1, pos.getX());
+        assertEquals(1, pos.getY()); // Moving backward from NORTH
+    }
+
+
 
 
 }
