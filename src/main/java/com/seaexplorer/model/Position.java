@@ -20,6 +20,14 @@ public class Position {
         }
     }
 
+    public void turnLeft() {
+        this.direction = this.direction.turnLeft();
+    }
+
+    public void turnRight() {
+        this.direction = this.direction.turnRight();
+    }
+
     public int getX() { return x; }
     public int getY() { return y; }
     public Direction getDirection() { return direction; }

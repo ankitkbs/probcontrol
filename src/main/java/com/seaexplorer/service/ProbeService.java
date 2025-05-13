@@ -20,11 +20,16 @@ public class ProbeService {
 
     public void executeCommands(String commands) {
         for (char cmd : commands.toCharArray()) {
-            if (cmd == 'F') position.moveForward();
+            switch (cmd) {
+                case 'F' -> position.moveForward();
+                case 'L' -> position.turnLeft();
+                case 'R' -> position.turnRight();
+            }
         }
     }
 
     public Position getCurrentPosition() {
         return position;
     }
+
 }
