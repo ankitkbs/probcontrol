@@ -1,4 +1,5 @@
 package com.seaexplorer.model;
 
-public class Direction {
+public enum Direction {
+    NORTH, EAST, SOUTH, WEST;
 }
