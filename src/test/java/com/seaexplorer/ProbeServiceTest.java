@@ -51,8 +51,14 @@ class ProbeServiceTest {
         assertEquals(2, pos.getY()); // Should stay in place
     }
 
+    @Test
+    void shouldTrackVisitedCoordinates() {
+        ProbeService probeService = new ProbeService(5, 5);
+        probeService.initialize(1, 2, Direction.NORTH);
+        probeService.executeCommands("FFRFF");
 
-
-
+        List<Position> history = probeService.getVisitedPositions();
+        assertEquals(5, history.size()); // Includes initial position + 4 moves
+    }
 
 }
