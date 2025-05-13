@@ -40,6 +40,18 @@ class ProbeServiceTest {
         assertEquals(1, pos.getY()); // Moving backward from NORTH
     }
 
+    @Test
+    void shouldNotMoveIntoObstacle() {
+        ProbeService probeService = new ProbeService(5, 5);
+        probeService.addObstacle(1, 3); // Set obstacle one step ahead
+        probeService.initialize(1, 2, Direction.NORTH);
+        probeService.executeCommands("F"); // Should try to move to (1,3)
+        Position pos = probeService.getCurrentPosition();
+        assertEquals(1, pos.getX());
+        assertEquals(2, pos.getY()); // Should stay in place
+    }
+
+
 
 
 
