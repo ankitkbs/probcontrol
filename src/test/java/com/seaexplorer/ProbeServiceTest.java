@@ -4,6 +4,9 @@ import com.seaexplorer.model.Direction;
 import com.seaexplorer.model.Position;
 import com.seaexplorer.service.ProbeService;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProbeServiceTest {

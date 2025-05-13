@@ -5,6 +5,8 @@ import com.seaexplorer.model.Direction;
 import com.seaexplorer.model.Grid;
 import com.seaexplorer.model.Position;
 
+import java.util.List;
+
 public class ProbeService {
     private Position position;
     private Grid grid;
@@ -51,4 +53,7 @@ public class ProbeService {
         return position;
     }
 
+    public List<Position> getVisitedPositions() {
+        return null;
+    }
 }
