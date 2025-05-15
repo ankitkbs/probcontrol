@@ -4,8 +4,11 @@ package com.seaexplorer.service;
 import com.seaexplorer.model.Direction;
 import com.seaexplorer.model.Grid;
 import com.seaexplorer.model.Position;
+import com.seaexplorer.model.VisitedPosition;
+import com.seaexplorer.repository.VisitedPositionRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,8 @@ public class ProbeService {
     private Position position;
     private Grid grid;
     private List<Position> history = new ArrayList<>();
+    @Autowired
+    private VisitedPositionRepository visitedRepo;
 
     public void initialize(int x, int y, Direction direction) {
         this.position = new Position(x, y, direction);
@@ -66,6 +71,12 @@ public class ProbeService {
 
     private void track() {
         history.add(new Position(position.getX(), position.getY(), position.getDirection()));
+
+        VisitedPosition entity = new VisitedPosition();
+        entity.setX(position.getX());
+        entity.setY(position.getY());
+        entity.setDirection(position.getDirection());
+        visitedRepo.save(entity);
     }
 
     public List<Position> getVisitedPositions() {
