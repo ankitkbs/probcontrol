@@ -3,6 +3,8 @@ package com.seaexplorer.controller;
 import com.seaexplorer.model.Direction;
 import com.seaexplorer.model.Position;
 import com.seaexplorer.service.ProbeService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,7 @@ import java.util.List;
 @RequestMapping("/probe")
 public class ProbeController {
 
+    private static final Logger logger = LogManager.getLogger(ProbeController.class);
     private final ProbeService probeService = new ProbeService(5, 5); // Default 5x5 grid
 
     @PostMapping("/init")
@@ -19,6 +22,7 @@ public class ProbeController {
             @RequestParam int x,
             @RequestParam int y,
             @RequestParam Direction direction) {
+        logger.info("Initializing probe at {},{} facing {}", x, y, direction);
         probeService.initialize(x, y, direction);
         return ResponseEntity.ok("Probe initialized");
     }
