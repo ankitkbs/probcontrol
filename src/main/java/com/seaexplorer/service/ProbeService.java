@@ -4,11 +4,14 @@ package com.seaexplorer.service;
 import com.seaexplorer.model.Direction;
 import com.seaexplorer.model.Grid;
 import com.seaexplorer.model.Position;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProbeService {
+    private static final Logger logger = LogManager.getLogger(ProbeService.class);
     private Position position;
     private Grid grid;
     private List<Position> history = new ArrayList<>();
@@ -28,6 +31,7 @@ public class ProbeService {
     }
 
     public void executeCommands(String commands) {
+        logger.info("Executing command sequence: {}", commands);
         for (char cmd : commands.toCharArray()) {
             int x = position.getX();
             int y = position.getY();
