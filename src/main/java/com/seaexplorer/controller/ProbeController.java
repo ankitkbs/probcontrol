@@ -22,8 +22,13 @@ public class ProbeController {
     public ResponseEntity<String> initialize(
             @RequestParam int x,
             @RequestParam int y,
-            @RequestParam Direction direction) {
+            @RequestParam Direction direction,
+            @RequestParam(required = false) String obstacles) {
+
         logger.info("Initializing probe at {},{} facing {}", x, y, direction);
+
+        probeService.addObstaclesFromString(obstacles); // ✅ new service method
+
         probeService.initialize(x, y, direction);
         return ResponseEntity.ok("Probe initialized");
     }
@@ -35,7 +40,7 @@ public class ProbeController {
     }
 
     @GetMapping("/summary")
-    public ResponseEntity<List<Position>> getVisitedCoordinates() {
+    public ResponseEntity<List<Position>> getVisitdCeoordinates() {
         return ResponseEntity.ok(probeService.getVisitedPositions());
     }
 }

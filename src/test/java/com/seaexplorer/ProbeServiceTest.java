@@ -67,4 +67,38 @@ class ProbeServiceTest {
         List<Position> history = probeService.getVisitedPositions();
         assertTrue(history.size() > 1); // Initial + movements
     }
+
+    @Test
+    void shouldParseValidObstacleList() {
+        ProbeService probeService = new ProbeService(mockRepo);
+        probeService.addObstaclesFromString("1,1;2,2;3,3");
+        // Now try placing the probe and moving
+        probeService.initialize(1, 0, Direction.NORTH);
+        probeService.executeCommands("F"); // Hits (1,1), should stop
+        Position pos = probeService.getCurrentPosition();
+        assertEquals(1, pos.getX());
+        assertEquals(0, pos.getY());
+    }
+
+    @Test
+    void shouldHandleMalformedObstacleInputGracefully() {
+        ProbeService probeService = new ProbeService(mockRepo);
+        // Should skip all silently
+        probeService.addObstaclesFromString("abc;2,x;3,");
+        probeService.initialize(1, 2, Direction.NORTH);
+        probeService.executeCommands("F");
+        Position pos = probeService.getCurrentPosition();
+        assertEquals(1, pos.getX());
+        assertEquals(3, pos.getY()); // Moved forward despite garbage input
+    }
+
+    @Test
+    void shouldThrowExceptionForInvalidStartPosition() {
+        ProbeService probeService = new ProbeService(mockRepo);
+        Exception ex = assertThrows(RuntimeException.class, () -> {
+            probeService.initialize(99, 99, Direction.NORTH);
+        });
+        assertTrue(ex.getMessage().contains("out of bounds"));
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.seaexplorer.service;
 
+import com.seaexplorer.exception.ProbeException;
 import com.seaexplorer.model.*;
 import com.seaexplorer.repository.VisitedPositionRepository;
 import org.apache.logging.log4j.LogManager;
@@ -28,14 +29,41 @@ public class ProbeService {
     }
 
     public void initialize(int x, int y, Direction direction) {
+        if (!grid.isWithinBounds(x, y)) {
+            throw new ProbeException("Starting position is out of bounds.");
+        }
         this.position = new Position(x, y, direction);
         history.clear();
         track(); // Log the initial position
     }
 
     public void addObstacle(int x, int y) {
+        if (!grid.isWithinBounds(x, y)) {
+            throw new ProbeException("Cannot place obstacle outside grid at (" + x + "," + y + ")");
+        }
         grid.addObstacle(x, y);
     }
+
+    public void addObstaclesFromString(String obstacleString) {
+        if (obstacleString == null || obstacleString.isBlank()) return;
+
+        String[] obstacleList = obstacleString.split(";");
+        for (String coord : obstacleList) {
+            String[] parts = coord.split(",");
+            if (parts.length == 2) {
+                try {
+                    int ox = Integer.parseInt(parts[0].trim());
+                    int oy = Integer.parseInt(parts[1].trim());
+                    addObstacle(ox, oy);
+                } catch (NumberFormatException e) {
+                    logger.warn("Skipping invalid obstacle: {}", coord);
+                }
+            } else {
+                logger.warn("Invalid obstacle format: {}", coord);
+            }
+        }
+    }
+
 
     public void executeCommands(String commands) {
         logger.info("Executing command sequence: {}", commands);
@@ -67,6 +95,7 @@ public class ProbeService {
                     position.turnRight();
                     track();
                 }
+                default -> throw new ProbeException("Invalid command: '" + cmd + "'. Allowed commands are F, B, L, R.");
             }
         }
     }
