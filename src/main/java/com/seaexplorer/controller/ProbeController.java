@@ -35,7 +35,7 @@ public class ProbeController {
     }
 
     @GetMapping("/summary")
-    public ResponseEntity<List<Position>> getVisitedCoordinates() {
+    public ResponseEntity<List<Position>> getVisitdCeoordinates() {
         return ResponseEntity.ok(probeService.getVisitedPositions());
     }
 }

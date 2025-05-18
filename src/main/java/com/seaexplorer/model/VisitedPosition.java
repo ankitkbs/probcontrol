@@ -17,6 +17,4 @@ public class VisitedPosition {
     @Enumerated(EnumType.STRING)
     private Direction direction;
 
-    // getters and setters
-
 }

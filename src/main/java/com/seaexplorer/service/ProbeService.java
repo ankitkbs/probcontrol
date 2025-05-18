@@ -1,5 +1,6 @@
 package com.seaexplorer.service;
 
+import com.seaexplorer.exception.ProbeException;
 import com.seaexplorer.model.*;
 import com.seaexplorer.repository.VisitedPositionRepository;
 import org.apache.logging.log4j.LogManager;
@@ -28,12 +29,18 @@ public class ProbeService {
     }
 
     public void initialize(int x, int y, Direction direction) {
+        if (!grid.isWithinBounds(x, y)) {
+            throw new ProbeException("Starting position is out of bounds.");
+        }
         this.position = new Position(x, y, direction);
         history.clear();
         track(); // Log the initial position
     }
 
     public void addObstacle(int x, int y) {
+        if (!grid.isWithinBounds(x, y)) {
+            throw new ProbeException("Cannot place obstacle outside grid at (" + x + "," + y + ")");
+        }
         grid.addObstacle(x, y);
     }
 
@@ -67,6 +74,7 @@ public class ProbeService {
                     position.turnRight();
                     track();
                 }
+                default -> throw new ProbeException("Invalid command: '" + cmd + "'. Allowed commands are F, B, L, R.");
             }
         }
     }
